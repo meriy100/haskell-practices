@@ -35,6 +35,15 @@ fourEqual v x y z
   | v == x = threeEqual x y z
   | otherwise = False
 
+-- 3-18
+
+concatLines :: String -> String -> String
+concatLines first second = first ++ "\n" ++ second
+
+onThreeLines :: String -> String -> String -> String
+onThreeLines first second third = concatLines (concatLines first second) third
+
+
 main :: IO ()
 main = hspec $ do
   describe "3-4" $ do
@@ -79,3 +88,10 @@ main = hspec $ do
         (fourEqual 1 1 1 1) `shouldBe` (True :: Bool)
         (fourEqual 1 2 1 1) `shouldBe` (False :: Bool)
         (fourEqual 1 1 2 1) `shouldBe` (False :: Bool)
+  describe "3-18" $ do
+    context "concatLines" $ do
+      it "return String" $ do
+        (concatLines "cat" "dog") `shouldBe` ("cat\ndog" :: String)
+    context "onThreeLines" $ do
+      it "return onThreeLines" $ do
+        (onThreeLines "cat" "dog" "bird") `shouldBe` ("cat\ndog\nbird" :: String)
