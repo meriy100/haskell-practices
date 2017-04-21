@@ -25,6 +25,16 @@ threeDifferent x y z
   | x == z = False
   | otherwise = y /= z
 
+-- 3-10
+threeEqual :: Integer -> Integer -> Integer -> Bool
+threeEqual x y z
+  | x == y = x == z
+  | otherwise = False
+fourEqual :: Integer -> Integer -> Integer -> Integer -> Bool
+fourEqual v x y z
+  | v == x = threeEqual x y z
+  | otherwise = False
+
 main :: IO ()
 main = hspec $ do
   describe "3-4" $ do
@@ -55,3 +65,17 @@ main = hspec $ do
         (threeDifferent 1 1 3) `shouldBe` (False :: Bool)
         (threeDifferent 1 2 1) `shouldBe` (False :: Bool)
         (threeDifferent 1 2 2) `shouldBe` (False :: Bool)
+        (threeDifferent 1 1 1) `shouldBe` (False :: Bool)
+  describe "3-10" $ do
+    context "threeEqual" $ do
+      it "return Bool" $ do
+        (threeEqual 1 2 3) `shouldBe` (False :: Bool)
+        (threeEqual 1 1 2) `shouldBe` (False :: Bool)
+        (threeEqual 1 2 1) `shouldBe` (False :: Bool)
+        (threeEqual 2 1 1) `shouldBe` (False :: Bool)
+        (threeEqual 1 1 1) `shouldBe` (True :: Bool)
+    context "fourEqual" $ do
+      it "return Bool" $ do
+        (fourEqual 1 1 1 1) `shouldBe` (True :: Bool)
+        (fourEqual 1 2 1 1) `shouldBe` (False :: Bool)
+        (fourEqual 1 1 2 1) `shouldBe` (False :: Bool)
