@@ -76,9 +76,9 @@ rangeProduct m n
 -- 4-18
 fac :: Integer -> Integer
 fac n
- | n == 0 = 1
- | n > 0 = fac(n - 1) * n
- | otherwise = 0
+  | n == 0 = 1
+  | n > 0 = fac(n - 1) * n
+  | otherwise = 0
 
 fac' :: Integer -> Integer
 fac' n = rangeProduct 1 n
@@ -87,31 +87,35 @@ fac' n = rangeProduct 1 n
 --4-19
 multiplication :: Integer -> Integer -> Integer
 multiplication x y
- | y == 0 = 0
- | y > 0 = x + multiplication x (y - 1)
+  | x < 0 || y < 0 = 0 -- none nutural number
+  | y > 0 = x + multiplication x (y - 1)
+  | otherwise = y
 
 
 --4.22
 
--- zeroFunction :: (Integer -> Integer) -> Integer -> Bool
--- zeroFunction f n
---  | (f n == 0 || f n == False) = True
---  | (n == 0) = False
---  | otherwise = zeroFunction f (n - 1)
+isIncludeZero :: (Integer -> Integer) -> Integer -> Bool
+isIncludeZero f n
+ | (f n == 0) = True
+ | (n == 0) = False
+ | otherwise = isIncludeZero f (n - 1)
 
+
+test1 n = (n + 1) `mod` 5
+test2 n = 1
 
 --5.1
 maxOccurs :: Integer -> Integer -> (Integer, Integer)
 maxOccurs x y
- | (x == y) = (x, 2)
- | otherwise = (max x y, 1)
+  | (x == y) = (x, 2)
+  | otherwise = (max x y, 1)
 
 maxThreeOccurs :: Integer -> Integer -> Integer -> (Integer, Integer)
 maxThreeOccurs x y z
- | (x == y && y == z) = (x, 3)
- | (x == y || x == z) = (x, 2)
- | (y == z) = (y, 2)
- | otherwise = (maximum [x, y, z], 1)
+  | (x == y && y == z) = (x, 3)
+  | (x == y || x == z) = (x, 2)
+  | (y == z) = (y, 2)
+  | otherwise = (maximum [x, y, z], 1)
 
 
 main :: IO ()
@@ -160,4 +164,23 @@ main = hspec $ do
     context "m or n is negative" $ do
       it "should 0" $ do
         (rangeProduct (-1) (-1)) `shouldBe` 0
-
+  describe "4-18" $ do
+    context "m < n" $ do
+      it "should calc" $ do
+        (multiplication 2 5) `shouldBe` (2*5)
+    context "m > n" $ do
+      it "should calc" $ do
+        (multiplication 10 9) `shouldBe` (9*10)
+    context "m or n = 0" $ do
+      it "should calc" $ do
+        (multiplication 2 0) `shouldBe` (0)
+        (multiplication 0 9) `shouldBe` (0)
+  describe "4-22" $ do
+    context "test1 = (n + 1) `mod` 5" $ do
+      it "n = 10 should True" $ do
+        (isIncludeZero test1 10) `shouldBe` True
+      it "n = 3 should False" $ do
+        (isIncludeZero test1 3) `shouldBe` False
+    context "test2 = 1" $ do
+      it "should False" $ do
+        (isIncludeZero test2 10) `shouldBe` False
