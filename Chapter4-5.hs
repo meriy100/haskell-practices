@@ -85,10 +85,10 @@ fac' n = rangeProduct 1 n
 
 
 --4-19
-multiplication :: Integer -> Integer -> Integer
-multiplication x y
+multipl :: Integer -> Integer -> Integer
+multipl x y
   | x < 0 || y < 0 = 0 -- none nutural number
-  | y > 0 = x + multiplication x (y - 1)
+  | y > 0 = x + multipl x (y - 1)
   | otherwise = y
 
 
@@ -167,14 +167,14 @@ main = hspec $ do
   describe "4-18" $ do
     context "m < n" $ do
       it "should calc" $ do
-        (multiplication 2 5) `shouldBe` (2*5)
+        (multipl 2 5) `shouldBe` (2*5)
     context "m > n" $ do
       it "should calc" $ do
-        (multiplication 10 9) `shouldBe` (9*10)
+        (multipl 10 9) `shouldBe` (9*10)
     context "m or n = 0" $ do
       it "should calc" $ do
-        (multiplication 2 0) `shouldBe` (0)
-        (multiplication 0 9) `shouldBe` (0)
+        (multipl 2 0) `shouldBe` (0)
+        (multipl 0 9) `shouldBe` (0)
   describe "4-22" $ do
     context "test1 = (n + 1) `mod` 5" $ do
       it "n = 10 should True" $ do
