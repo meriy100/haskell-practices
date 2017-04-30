@@ -2,7 +2,6 @@ import Test.Hspec
 import Test.QuickCheck
 import Control.Exception (evaluate)
 
--- module Chapter4 where
 --- 4-2
 weakAscendingOrder :: Integer -> Integer -> Integer -> Bool
 weakAscendingOrder x y z
@@ -11,12 +10,18 @@ weakAscendingOrder x y z
 
 between :: Integer -> Integer -> Integer -> Bool
 between x y z
- | weakAscendingOrder x y z == True = True
- | weakAscendingOrder z y x == True = True
+ | weakAscendingOrder x y z = True
+ | weakAscendingOrder z y x = True
  | otherwise  = False
 
+middleNumber :: Integer -> Integer -> Integer -> Integer
+middleNumber x y z
+  | between y x z = x
+  | between x y z = y
+  | otherwise = z
 
---4-11
+-- 4-11 && 4-12
+
 
 data Move = Rock |
             Paper |
@@ -111,6 +116,14 @@ maxThreeOccurs x y z
 
 main :: IO ()
 main = hspec $ do
+  describe "4-2" $ do
+    context "middleNumber" $ do
+      it "x" $ do
+        (middleNumber 2 1 3) `shouldBe` (2)
+      it "y" $ do
+        (middleNumber 2 4 9) `shouldBe` (4)
+      it "z" $ do
+        (middleNumber 10 38 (-11)) `shouldBe` (10)
   describe "4-11 and 4-12" $ do
     context "Rock is " $ do
       it "draw to Rock" $ do
