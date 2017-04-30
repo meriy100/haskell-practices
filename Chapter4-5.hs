@@ -84,7 +84,7 @@ fac' :: Integer -> Integer
 fac' n = rangeProduct 1 n
 
 
---4-19
+-- 4-19
 multipl :: Integer -> Integer -> Integer
 multipl x y
   | x < 0 || y < 0 = 0 -- none nutural number
@@ -92,7 +92,7 @@ multipl x y
   | otherwise = y
 
 
---4.22
+-- 4-22
 
 isIncludeZero :: (Integer -> Integer) -> Integer -> Bool
 isIncludeZero f n
@@ -104,7 +104,7 @@ isIncludeZero f n
 test1 n = (n + 1) `mod` 5
 test2 n = 1
 
---5.1
+-- 5-1
 maxOccurs :: Integer -> Integer -> (Integer, Integer)
 maxOccurs x y
   | (x == y) = (x, 2)
@@ -113,9 +113,9 @@ maxOccurs x y
 maxThreeOccurs :: Integer -> Integer -> Integer -> (Integer, Integer)
 maxThreeOccurs x y z
   | (x == y && y == z) = (x, 3)
-  | (x == y || x == z) = (x, 2)
-  | (y == z) = (y, 2)
-  | otherwise = (maximum [x, y, z], 1)
+  | x > z = maxOccurs x y
+  | x > y = maxOccurs x z
+  | otherwise = maxOccurs y z
 
 
 main :: IO ()
@@ -184,3 +184,45 @@ main = hspec $ do
     context "test2 = 1" $ do
       it "should False" $ do
         (isIncludeZero test2 10) `shouldBe` False
+  describe "4-22" $ do
+    context "maxOccurs" $ do
+      context "x and y is same" $ do
+        it "should be (x, 2)" $ do
+          (maxOccurs 3 3) `shouldBe` (3, 2)
+      context "x > y" $ do
+        it "should be (x, 1)" $ do
+          (maxOccurs 4 2) `shouldBe` (4, 1)
+      context "x < y" $ do
+        it "should be (y, 1)" $ do
+          (maxOccurs 4 9) `shouldBe` (9, 1)
+    context "maxThreeOccurs" $ do
+      context "x, y and z is same" $ do
+        it "should be (x, 3)" $ do
+          (maxThreeOccurs 9 9 9) `shouldBe` (9, 3)
+      context "x, y is same smaller than z" $ do
+        it "should be (z, 1)" $ do
+          (maxThreeOccurs 3 3 8) `shouldBe` (8, 1)
+      context "x, y is same bigger than z" $ do
+        it "should be (x, 2)" $ do
+          (maxThreeOccurs 9 9 8) `shouldBe` (9, 2)
+      context "x, z is same smaller than y" $ do
+        it "should be (y, 1)" $ do
+          (maxThreeOccurs 1 3 1) `shouldBe` (3, 1)
+      context "x, z is same bigger than y" $ do
+        it "should be (x, 2)" $ do
+          (maxThreeOccurs 4 4 2) `shouldBe` (4, 2)
+      context "y, z is same smaller than x" $ do
+        it "should be (z, 1)" $ do
+          (maxThreeOccurs 11 3 3) `shouldBe` (11, 1)
+      context "y, z is same bigger than x" $ do
+        it "should be (y, 2)" $ do
+          (maxThreeOccurs 0 4 4) `shouldBe` (4, 2)
+      context "x is biggest then other" $ do
+        it "should be (x, 1)" $ do
+          (maxThreeOccurs 4 2 3) `shouldBe` (4, 1)
+      context "y is biggest then other" $ do
+        it "should be (y, 1)" $ do
+          (maxThreeOccurs (-2) (-1) (-99)) `shouldBe` ((-1), 1)
+      context "z is biggest then other" $ do
+        it "should be (z, 1)" $ do
+          (maxThreeOccurs 2 1 73) `shouldBe` (73, 1)
