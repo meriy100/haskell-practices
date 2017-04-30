@@ -60,6 +60,25 @@ outcome x y
   | lose x == y = Lose
   | draw x == y = Draw
 
+-- 4-17
+rangeProduct :: Integer -> Integer -> Integer
+rangeProduct m n
+  | (n < m) || m < 0 = 0
+  | m == n = m
+  | n - m == 1 = m*n
+  | otherwise = m * rangeProduct(m + 1) (n - 1) * n
+
+-- 4-18
+fac :: Integer -> Integer
+fac n
+ | n == 0 = 1
+ | n > 0 = fac(n - 1) * n
+ | otherwise = 0
+
+fac' :: Integer -> Integer
+fac' n = rangeProduct 1 n
+
+
 --4-19
 multiplication :: Integer -> Integer -> Integer
 multiplication x y
@@ -68,15 +87,6 @@ multiplication x y
 
 
 --4.22
-
-----------for debug function----------
-fac :: Integer -> Integer
-fac n
- | n == 0 = 1
- | n > 0 = fac(n - 1) * n
- | otherwise = 0
-----------for debug function----------
-
 
 -- zeroFunction :: (Integer -> Integer) -> Integer -> Bool
 -- zeroFunction f n
@@ -123,3 +133,18 @@ main = hspec $ do
         (outcome Scissors Paper) `shouldBe` (Lose)
       it "draw to Paper" $ do
         (outcome Paper Paper) `shouldBe` (Draw)
+  describe "4-17" $ do
+    context "m < n" $ do
+      it "should calc" $ do
+        (rangeProduct 2 5) `shouldBe` 120
+        (rangeProduct 3 5) `shouldBe` 60
+    context "m == n" $ do
+      it "should n" $ do
+        (rangeProduct 2 2) `shouldBe` 2
+    context "m > n" $ do
+      it "should 0" $ do
+        (rangeProduct 3 2) `shouldBe` 0
+    context "m or n is negative" $ do
+      it "should 0" $ do
+        (rangeProduct (-1) (-1)) `shouldBe` 0
+
