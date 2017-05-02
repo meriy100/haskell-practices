@@ -34,6 +34,11 @@ func72 (_) = 0
 -- 7-3
 func73 xs = sum (take 2 xs)
 
+
+-- 7-5
+procduct (x:xs) = x * procduct xs
+procduct _ = 1
+
 main :: IO ()
 main = hspec $ do
   describe "5-18" $ do
@@ -59,3 +64,11 @@ main = hspec $ do
         (isPrime 10) `shouldBe` False
       it "23" $ do
         (isPrime 23) `shouldBe` True
+  describe "7-5" $ do
+    context "product" $ do
+      it "1..10" $ do
+        (procduct [1..10]) `shouldBe` 3628800
+      it "2, 3, 5" $ do
+        (procduct [2, 3, 5]) `shouldBe` 30
+      it "empty" $ do
+        (procduct []) `shouldBe` 1
