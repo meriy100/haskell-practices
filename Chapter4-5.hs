@@ -226,3 +226,4 @@ main = hspec $ do
       context "z is biggest then other" $ do
         it "should be (z, 1)" $ do
           (maxThreeOccurs 2 1 73) `shouldBe` (73, 1)
+
