@@ -27,6 +27,13 @@ divisors x = filter (\i -> x `mod` i == 0) [1..x]
 isPrime :: Integer -> Bool
 isPrime x =  divisors x == [1, x]
 
+-- 7-2
+func72 (x1:x2:_) = x1 + x2
+func72 (_) = 0
+
+-- 7-3
+func73 xs = sum (take 2 xs)
+
 main :: IO ()
 main = hspec $ do
   describe "5-18" $ do
