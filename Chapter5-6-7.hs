@@ -1,3 +1,7 @@
+import Test.Hspec
+import Test.QuickCheck
+import Control.Exception (evaluate)
+
 exists :: Eq a => [a] -> a -> Bool
 exists xs x
   | head xs == x = True
@@ -9,3 +13,42 @@ find xs f
   | tail xs == [] = Nothing
   | otherwise = find (tail xs) f
 
+-- 5-18
+
+doubleAll :: [Integer] -> [Integer]
+doubleAll [] = []
+doubleAll xs = (head xs * 2):(doubleAll (tail xs))
+
+-- 5-20
+divisors :: Integer -> [Integer]
+divisors 1 = [1]
+divisors x = filter (\i -> x `mod` i == 0) [1..x]
+
+isPrime :: Integer -> Bool
+isPrime x =  divisors x == [1, x]
+
+main :: IO ()
+main = hspec $ do
+  describe "5-18" $ do
+    context "doubleAll" $ do
+      it "[1..10]" $ do
+        (doubleAll [1..10]) `shouldBe` ([2,4..20])
+  describe "5-20" $ do
+    context "divisors" $ do
+      it "0" $ do
+        (divisors 0) `shouldBe` ([])
+      it "1" $ do
+        (divisors 1) `shouldBe` ([1])
+      it "2" $ do
+        (divisors 2) `shouldBe` ([1, 2])
+      it "12" $ do
+        (divisors 12) `shouldBe` ([1, 2, 3, 4, 6, 12])
+    context "isPrime" $ do
+      it "1" $ do
+        (isPrime 1) `shouldBe` False
+      it "2" $ do
+        (isPrime 2) `shouldBe` True
+      it "10" $ do
+        (isPrime 10) `shouldBe` False
+      it "23" $ do
+        (isPrime 23) `shouldBe` True
