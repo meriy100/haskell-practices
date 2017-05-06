@@ -39,6 +39,25 @@ func73 xs = sum (take 2 xs)
 procduct (x:xs) = x * procduct xs
 procduct _ = 1
 
+-- 7-6
+mAnd (x:xs) = x && mAnd xs
+mAnd _ = True
+mOr (x:xs) = x || mOr xs
+mOr _ = False
+
+-- 7-8
+
+elemNum :: Integer -> [Integer]  -> Integer
+elemNum x (x1:xs)
+  | x == x1 = 1 + elemNum x xs
+  | otherwise = elemNum x xs
+elemNum x _ = 0
+
+-- 7-9
+unique :: [Integer] -> [Integer]
+unique (x1:xs)
+  | [x | x <- xs, x == x1] =
+
 main :: IO ()
 main = hspec $ do
   describe "5-18" $ do
@@ -72,3 +91,15 @@ main = hspec $ do
         (procduct [2, 3, 5]) `shouldBe` 30
       it "empty" $ do
         (procduct []) `shouldBe` 1
+  describe "7-8" $ do
+    context "elemNum" $ do
+      it "should count x in xs" $ do
+        (elemNum 2 [1..5]) `shouldBe` 1
+      it "should count x in xs" $ do
+        (elemNum 2 (concat [[1..5], [0,2..10]])) `shouldBe` 2
+  describe "7-9" $ do
+    context "unique" $ do
+      it "" $ do
+        (unique [1,2,3,4,5,4,3,2]) `shouldBe` [1,5]
+      it "" $ do
+        (unique [2,3,4,4,5,4,3,2]) `shouldBe` [5]
