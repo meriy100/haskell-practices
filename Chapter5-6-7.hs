@@ -2,17 +2,6 @@ import Test.Hspec
 import Test.QuickCheck
 import Control.Exception (evaluate)
 
-exists :: Eq a => [a] -> a -> Bool
-exists xs x
-  | head xs == x = True
-  | tail xs == [] = False
-  | otherwise = exists (tail xs) x
-find :: Eq t => [t] -> (t -> Bool) -> Maybe t
-find xs f
-  | f(head xs) = Just(head xs)
-  | tail xs == [] = Nothing
-  | otherwise = find (tail xs) f
-
 -- 5-18
 
 doubleAll :: [Integer] -> [Integer]
@@ -56,7 +45,9 @@ elemNum x _ = 0
 -- 7-9
 unique :: [Integer] -> [Integer]
 unique (x1:xs)
-  | [x | x <- xs, x == x1] =
+  | elemNum x1 xs == 0 = x1:(unique xs)
+  | otherwise = unique (filter (\i -> x1 /= i) xs)
+unique _ = []
 
 main :: IO ()
 main = hspec $ do
