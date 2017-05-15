@@ -19,6 +19,13 @@ joinLines (word:line)
   | otherwise = word
 joinLines _ =  ""
 
+--- 9-5
+
+prop_sum_check xs ys = sum(xs ++ ys) == sum xs + sum ys
+
+generateArray len
+  | len > 0 = ((1):(generateArray (len - 1)))
+  | otherwise = []
 
 main :: IO ()
 main = hspec $ do
@@ -34,3 +41,15 @@ main = hspec $ do
         (joinLines ["cat", "dog", "bird"]) `shouldBe` "cat\ndog\nbird"
       it "empty" $ do
         (joinLine []) `shouldBe` ""
+  describe "9-5" $ do
+    context "xs.length and ys.length == 1" $ do
+      it "should be true" $ do
+        (prop_sum_check (generateArray 1) (generateArray 1)) `shouldBe` True
+    context "xs.length == k " $ do
+      it "should be true but limit 100" $ do
+        k <- randomRIO(2, 100) :: IO Int
+        h <- randomRIO(2, 100) :: IO Int
+        (prop_sum_check (generateArray k) (generateArray h)) `shouldBe` True
+        (prop_sum_check (generateArray (k+1)) (generateArray h)) `shouldBe` True
+        (prop_sum_check (generateArray k) (generateArray h)) `shouldBe` True
+        (prop_sum_check (generateArray k) (generateArray (h+1))) `shouldBe` True
