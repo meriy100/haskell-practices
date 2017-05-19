@@ -3,24 +3,18 @@ import Test.Hspec
 -- import Test.QuickCheck
 -- import System.Random
 
+-- memo
 putStrLn = putStr . (++ "\n")
 inc = (+1)
 
-absolute :: Num a => Ord a => a -> a
-absolute x
-  | x < 0 = -x
-  | otherwise = x
 
-elem' :: a -> [a] -> Bool
-elem' a [] = False
-
-
--- test = absolute "a"
+-- 10-2
+length' :: Num a => [a1] -> a
+length' xs = sum $ map (\_ -> 1) xs
 
 
 main :: IO ()
-main = hspec $ do
-  describe "" $ do
-    context "" $ do
-      it "" $ do
-        print "ok"
+main = hspec $ describe "" $ do
+    context "length'" $ do
+      it "abcd" $ length' "abcd" `shouldBe` (4::Integer)
+      it "[1..10]" $ length' [1..10] `shouldBe` (10::Integer)
