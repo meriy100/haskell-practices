@@ -1,12 +1,13 @@
+module Homeworks0516 where
+
 import Test.Hspec
--- import Control.Exception (evaluate)
--- import Test.QuickCheck
--- import System.Random
 
 -- memo
 putStrLn = putStr . (++ "\n")
 inc = (+1)
 
+
+square x = x * x
 
 -- 10-2
 length' :: Num a => [a1] -> a
@@ -27,7 +28,13 @@ isPositives [] = True
 sumOfSquares :: [Integer] -> Integer
 sumOfSquares (x:xs) = foldr (\n -> \m -> n * n + m) (x * x) xs
 
+-- 10-14
 
+positiveOrZero x
+  | x > 0 = x
+  | otherwise = 0
+sumOfSquaresOnlyPositive :: [Integer] -> Integer
+sumOfSquaresOnlyPositive ns = foldr (+) 0 $ map (square . positiveOrZero) ns
 
 main :: IO ()
 main = hspec $ do
@@ -53,3 +60,14 @@ main = hspec $ do
         sumOfSquares ns `shouldBe` sumSquares ns
       it "[1..5]" $ sumOfSquares [5..9] `shouldBe` sumSquares [(-9)..(-5)]
       it "[1..5]" $ sumOfSquares [(-9)..(-5)] `shouldBe` sumSquares [5..9]
+  describe "10-14" $ do
+    context "sumOfSquaresOnlyPositive" $ do
+      it "[1..5]" $ sumOfSquaresOnlyPositive [1..5] `shouldBe` sumSquares [1..5]
+      it "[n + 1 | [1..10]]" $ do
+        let ns = [n * 2 | n <- [1..10]]
+        sumOfSquaresOnlyPositive ns `shouldBe` sumSquares ns
+      it "[5..9]" $ sumOfSquaresOnlyPositive [5..9] `shouldBe` sumSquares [(-9)..(-5)]
+      it "[-9..-5]" $ sumOfSquaresOnlyPositive [(-9)..(-5)] `shouldBe` sumSquares []
+      it "[1..2, -3, 3..5)" $ sumOfSquaresOnlyPositive (1:2:(-3):[3..5]) `shouldBe` sumSquares [1..5]
+
+
