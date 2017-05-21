@@ -36,12 +36,17 @@ positiveOrZero x
 sumOfSquaresOnlyPositive :: [Integer] -> Integer
 sumOfSquaresOnlyPositive ns = foldr (+) 0 $ map (square . positiveOrZero) ns
 
+-- 11-4
+-- ($) :: (a -> b) -> a -> b
+
+-- 11-5
+-- zipWith ($) [sum, product] [[1, 2], [3, 4]]
+
 main :: IO ()
 main = hspec $ do
-  describe "10-2" $ do
-    context "length'" $ do
-      it "abcd" $ length' "abcd" `shouldBe` (4::Integer)
-      it "[1..10]" $ length' [1..10] `shouldBe` (10::Integer)
+  describe "10-2" $ context "length'" $ do
+    it "abcd" $ length' "abcd" `shouldBe` (4::Integer)
+    it "[1..10]" $ length' [1..10] `shouldBe` (10::Integer)
   describe "10-6" $ do
     context "squares" $ do
       it "[1..5]" $ squares [1..5] `shouldBe` ([1, 4, 9, 16, 25]::[Integer])
@@ -52,22 +57,19 @@ main = hspec $ do
     context "isPositives" $ do
       it "[1..5]" $ isPositives [1..5] `shouldBe` (True::Bool)
       it "[-1, 2..5]" $ isPositives (-1:[2..5]) `shouldBe` (False::Bool)
-  describe "10-13" $ do
-    context "sumOfSquares" $ do
-      it "[1..5]" $ sumOfSquares [1..5] `shouldBe` sumSquares [1..5]
-      it "[n + 1 | [1..10]]" $ do
-        let ns = [n * 2 | n <- [1..10]]
-        sumOfSquares ns `shouldBe` sumSquares ns
-      it "[1..5]" $ sumOfSquares [5..9] `shouldBe` sumSquares [(-9)..(-5)]
-      it "[1..5]" $ sumOfSquares [(-9)..(-5)] `shouldBe` sumSquares [5..9]
-  describe "10-14" $ do
-    context "sumOfSquaresOnlyPositive" $ do
-      it "[1..5]" $ sumOfSquaresOnlyPositive [1..5] `shouldBe` sumSquares [1..5]
-      it "[n + 1 | [1..10]]" $ do
-        let ns = [n * 2 | n <- [1..10]]
-        sumOfSquaresOnlyPositive ns `shouldBe` sumSquares ns
-      it "[5..9]" $ sumOfSquaresOnlyPositive [5..9] `shouldBe` sumSquares [(-9)..(-5)]
-      it "[-9..-5]" $ sumOfSquaresOnlyPositive [(-9)..(-5)] `shouldBe` sumSquares []
-      it "[1..2, -3, 3..5)" $ sumOfSquaresOnlyPositive (1:2:(-3):[3..5]) `shouldBe` sumSquares [1..5]
-
-
+  describe "10-13" $ context "sumOfSquares" $ do
+    it "[1..5]" $ sumOfSquares [1..5] `shouldBe` sumSquares [1..5]
+    it "[n + 1 | [1..10]]" $ do
+      let ns = [n * 2 | n <- [1..10]]
+      sumOfSquares ns `shouldBe` sumSquares ns
+    it "[1..5]" $ sumOfSquares [5..9] `shouldBe` sumSquares [(-9)..(-5)]
+    it "[1..5]" $ sumOfSquares [(-9)..(-5)] `shouldBe` sumSquares [5..9]
+  describe "10-14" $ context "sumOfSquaresOnlyPositive" $ do
+    it "[1..5]" $ sumOfSquaresOnlyPositive [1..5] `shouldBe` sumSquares [1..5]
+    it "[n + 1 | [1..10]]" $ do
+      let ns = [n * 2 | n <- [1..10]]
+      sumOfSquaresOnlyPositive ns `shouldBe` sumSquares ns
+    it "[5..9]" $ sumOfSquaresOnlyPositive [5..9] `shouldBe` sumSquares [(-9)..(-5)]
+    it "[-9..-5]" $ sumOfSquaresOnlyPositive [(-9)..(-5)] `shouldBe` sumSquares []
+    it "[1..2, -3, 3..5)" $ sumOfSquaresOnlyPositive (1:2:(-3):[3..5]) `shouldBe` sumSquares [1..5]
+  describe "11-5" $ context "zipWith" $ it "" $ zipWith ($) [sum, product] [[1, 2], [3, 4]] `shouldBe` ([3, 12]::[Integer])
