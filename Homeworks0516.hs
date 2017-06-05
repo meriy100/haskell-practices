@@ -28,6 +28,7 @@ isPositives [] = True
 sumOfSquares :: [Integer] -> Integer
 sumOfSquares (x:xs) = foldr (\n -> \m -> n * n + m) (x * x) xs
 
+
 -- 10-14
 
 positiveOrZero x
